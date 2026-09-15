@@ -1,0 +1,20 @@
+{
+  "$comment": "Fotos ilustrativas temporárias (Unsplash License: https://unsplash.com/license). Nenhuma retrata o modelo à venda. Trocar pelas fotos oficiais da Ápice mantendo o mesmo id. Arquivos gerados por scripts/images.mjs em public/images/<id>-<w>.webp.",
+  "license": { "name": "Unsplash License", "url": "https://unsplash.com/license" },
+  "images": [
+    { "id": "hero-gtr", "unsplashId": "DS2JrhXpEVY", "author": "Stefan Lehner", "authorUrl": "https://unsplash.com/@stefanlehner", "alt": "Moto elétrica branca e preta em estúdio escuro, vista lateral", "ratio": "4:3", "wide": true },
+    { "id": "scooter-charging", "unsplashId": "1CWvpZIRBXc", "author": "Ather Energy", "authorUrl": "https://unsplash.com/@atherenergy", "alt": "Scooter elétrica vermelha e preta carregando em ponto de recarga ao lado de parede cinza", "ratio": "4:3" },
+    { "id": "scooter-brick", "unsplashId": "EaDLbQr-k04", "author": "Ather Energy", "authorUrl": "https://unsplash.com/@atherenergy", "alt": "Scooter elétrica preta estacionada diante de parede de tijolos", "ratio": "4:3" },
+    { "id": "scooter-door", "unsplashId": "5rLczFABMdc", "author": "Umut Tülüoğlu", "authorUrl": "https://unsplash.com/@umuttuluoglu", "alt": "Scooter preta estacionada em frente a uma porta de madeira", "ratio": "4:3" },
+    { "id": "scooter-green", "unsplashId": "Jim-MjVikqQ", "author": "Autotrader UK", "authorUrl": "https://unsplash.com/@autotraderuk", "alt": "Scooter elétrica verde estacionada em garagem residencial", "ratio": "4:3" },
+    { "id": "scooter-night", "unsplashId": "9xTQiCKyJb8", "author": "Jett Shim", "authorUrl": "https://unsplash.com/@jettshim", "alt": "Scooter amarela estacionada em estacionamento à noite", "ratio": "4:3" },
+    { "id": "trail-orange", "unsplashId": "KHZXnCf6HFQ", "author": "Sebastian Bruch", "authorUrl": "https://unsplash.com/@sebastianbruch", "alt": "Moto elétrica trail laranja e preta em estrada com grama ao fundo", "ratio": "4:3" },
+    { "id": "trail-dark", "unsplashId": "DiCeaidKhKs", "author": "Himiway Bikes", "authorUrl": "https://unsplash.com/@himiwaybikes", "alt": "Moto elétrica de pneus largos com farol aceso em fundo escuro", "ratio": "4:3" },
+    { "id": "sport-city", "unsplashId": "kFk7HgvWnRE", "author": "Hervé Papaux", "authorUrl": "https://unsplash.com/@hpapaux", "alt": "Moto esportiva preta estacionada em rua da cidade", "ratio": "4:3" },
+    { "id": "sport-garage", "unsplashId": "r4-niiciGE8", "author": "Niclas Moser", "authorUrl": "https://unsplash.com/@niclasmoser", "alt": "Moto esportiva sob foco de luz em garagem escura", "ratio": "4:3", "wide": true },
+    { "id": "detail-front", "unsplashId": "kXw6ngvtf_k", "author": "Soroush Golpoor", "authorUrl": "https://unsplash.com/@soroushgolpoor", "alt": "Frente de moto preta com farol redondo em fundo escuro", "ratio": "4:3" },
+    { "id": "detail-dash", "unsplashId": "b_cHwAz_4k4", "author": "Ather Energy", "authorUrl": "https://unsplash.com/@atherenergy", "alt": "Detalhe do painel e guidão de scooter elétrica verde", "ratio": "4:3" },
+    { "id": "ride-city", "unsplashId": "S0fHHKJO8dU", "author": "JavyGo", "authorUrl": "https://unsplash.com/@javygo", "alt": "Pessoa pilotando scooter azul em avenida movimentada", "ratio": "4:3", "wide": true },
+    { "id": "ride-street", "unsplashId": "_rJAkpmNNAk", "author": "Huang Minggui", "authorUrl": "https://unsplash.com/@huangminggui", "alt": "Pessoa de capacete amarelo pilotando scooter em rua da cidade", "ratio": "4:3" }
+  ]
+}
