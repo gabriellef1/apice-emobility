@@ -33,7 +33,7 @@ describe('ProductCard', () => {
     expect(screen.getByRole('link')).toHaveAttribute('href', '/produto/apice-teste')
 
     const terms = screen.getAllByRole('term').map((el) => el.textContent)
-    expect(terms).toEqual(['Autonomia', 'Velocidade máx.', 'Potência'])
+    expect(terms).toEqual(['Autonomia', 'Velocidade', 'Potência'])
     expect(screen.getByText('5 kW')).toBeInTheDocument()
   })
 

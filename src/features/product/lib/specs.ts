@@ -12,6 +12,8 @@ type NumericSpecKey = Exclude<keyof Specifications, 'battery_type' | 'colors'>
 interface SpecDef {
   key: NumericSpecKey
   label: string
+  /** Versão curta pro card, onde o rótulo não pode quebrar linha. */
+  short?: string
   format: (value: number) => string
 }
 
@@ -22,7 +24,12 @@ export function formatPower(watts: number): string {
 /** Ordem de exibição das specs numéricas. Card usa as 3 primeiras disponíveis. */
 export const SPEC_DEFS: readonly SpecDef[] = [
   { key: 'range_km', label: 'Autonomia', format: (v) => `${formatNumber(v)} km` },
-  { key: 'top_speed_kmh', label: 'Velocidade máx.', format: (v) => `${formatNumber(v)} km/h` },
+  {
+    key: 'top_speed_kmh',
+    label: 'Velocidade máxima',
+    short: 'Velocidade',
+    format: (v) => `${formatNumber(v)} km/h`,
+  },
   { key: 'motor_power_w', label: 'Potência', format: formatPower },
   { key: 'charge_time_h', label: 'Tempo de carga', format: (v) => `${formatNumber(v)} h` },
   { key: 'weight_kg', label: 'Peso', format: (v) => `${formatNumber(v)} kg` },
@@ -61,7 +68,7 @@ export function primarySpecs(product: Product, limit = 3): SpecItem[] {
   for (const def of SPEC_DEFS.slice(0, 3)) {
     const value = specs[def.key]
     if (value !== undefined)
-      items.push({ key: def.key, label: def.label, value: def.format(value) })
+      items.push({ key: def.key, label: def.short ?? def.label, value: def.format(value) })
   }
   return items.slice(0, limit)
 }

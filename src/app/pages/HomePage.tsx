@@ -253,7 +253,7 @@ function Hero({ product }: { product: Product }) {
       className="relative overflow-hidden bg-ink-950 text-white"
       aria-labelledby="hero-heading"
     >
-      <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-[62%]">
+      <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-[68%]">
         <motion.div
           initial={{ opacity: 0, scale: 1.02 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -262,14 +262,14 @@ function Hero({ product }: { product: Product }) {
         >
           <Picture
             image={image}
-            sizes="(min-width: 1024px) 62vw, 100vw"
+            sizes="(min-width: 1024px) 68vw, 100vw"
             priority
             className="aspect-[16/9] bg-ink-950 lg:aspect-auto lg:h-full"
-            imgClassName="object-center lg:object-left"
+            imgClassName="object-center"
           />
         </motion.div>
         <div
-          className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink-950 via-ink-950/40 to-transparent lg:block"
+          className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink-950 via-ink-950/50 via-30% to-transparent lg:block"
           aria-hidden
         />
       </div>

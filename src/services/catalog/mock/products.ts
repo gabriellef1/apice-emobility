@@ -217,7 +217,7 @@ export const products: readonly Product[] = [
     price_on_request: true,
     category: 'street',
     availability: 'pre_order',
-    featured: false,
+    featured: true,
     active: true,
     sort_order: 70,
     specifications: {

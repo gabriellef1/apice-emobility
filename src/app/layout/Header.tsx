@@ -57,7 +57,7 @@ export function Header() {
           className="flex shrink-0 items-center rounded-sm"
           aria-label="Ápice E-Mobility, início"
         >
-          <Logo height={34} />
+          <Logo height={38} />
         </Link>
 
         <nav aria-label="Principal" className="hidden md:block">
