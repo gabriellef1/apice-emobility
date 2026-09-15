@@ -1,5 +1,6 @@
 {
   "$comment": "Fotos ilustrativas temporárias (Unsplash License: https://unsplash.com/license). Nenhuma retrata o modelo à venda. Trocar pelas fotos oficiais da Ápice mantendo o mesmo id. Arquivos gerados por scripts/images.mjs em public/images/<id>-<w>.webp.",
+  "ogImage": "hero-gtr",
   "license": { "name": "Unsplash License", "url": "https://unsplash.com/license" },
   "images": [
     { "id": "hero-gtr", "unsplashId": "DS2JrhXpEVY", "author": "Stefan Lehner", "authorUrl": "https://unsplash.com/@stefanlehner", "alt": "Moto elétrica branca e preta em estúdio escuro, vista lateral", "ratio": "4:3", "wide": true },

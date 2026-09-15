@@ -12,5 +12,5 @@ export const categoryContent: Record<ProductCategory, CategoryContent> = {
   scooter: { blurb: 'Deslocamento diário com conforto e porta-objetos.', image: 'detail-dash' },
   street: { blurb: 'Leve, minimalista, pra trajetos curtos na cidade.', image: 'ride-street' },
   trail: { blurb: 'Terra, areia e cidade com suspensão de longo curso.', image: 'trail-orange' },
-  sport: { blurb: 'Desempenho de estrada com torque instantâneo.', image: 'sport-garage' },
+  sport: { blurb: 'Desempenho de estrada com torque instantâneo.', image: 'sport-city' },
 }

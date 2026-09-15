@@ -58,6 +58,25 @@ async function main() {
     }
     console.log('ok', image.id)
   }
+  await ogDefault(manifest)
+}
+
+/** Imagem OG padrão (1200x630): foto do hero escurecida + lockup da marca. */
+async function ogDefault(manifest) {
+  const hero = manifest.images.find((image) => image.id === manifest.ogImage)
+  if (!hero) return
+  const photo = await sharp(path.join(CACHE, `${hero.unsplashId}.jpg`))
+    .resize(1200, 630, { fit: 'cover', position: 'attention' })
+    .modulate({ brightness: 0.55 })
+    .toBuffer()
+  const lockup = await sharp('src/assets/brand/lockup-stacked.png')
+    .resize({ height: 220 })
+    .toBuffer()
+  await sharp(photo)
+    .composite([{ input: lockup, left: 72, top: 64 }])
+    .png({ compressionLevel: 9 })
+    .toFile(path.join('public', 'og-default.png'))
+  console.log('ok og-default')
 }
 
 main().catch((error) => {
