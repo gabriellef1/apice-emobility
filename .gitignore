@@ -35,3 +35,7 @@ test-results
 
 # Cache de imagens originais
 .cache
+
+# Playwright
+playwright-report
+test-results

@@ -1,5 +1,5 @@
 import { ArrowRight, Mail, MessageCircle } from 'lucide-react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { Link, useLoaderData } from 'react-router'
 
 import { type homeLoader } from '@/app/loaders'
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal } from '@/components/ui/Reveal'
-import { revealEase } from '@/lib/motion'
+import { duration, easeOutExpo, stagger, wipeFromLeft, wipeFromRight } from '@/lib/motion'
 import { company } from '@/config/company'
 import { categoryContent } from '@/content/categories'
 import { coverImage, heroImage } from '@/content/images'
@@ -64,7 +64,7 @@ export function HomePage() {
                 <p className="eyebrow text-brand-600">Em destaque</p>
                 <h2
                   id="destaques-heading"
-                  className="mt-3 text-display-md font-display text-ink-950"
+                  className="mt-3 text-display-md font-display text-balance text-ink-950"
                 >
                   Modelos em destaque
                 </h2>
@@ -87,7 +87,7 @@ export function HomePage() {
                   <Reveal
                     as="li"
                     key={product.id}
-                    delay={0.1 + index * 0.12}
+                    delay={0.1 + index * stagger.blocks}
                     className="w-[82%] shrink-0 snap-start sm:w-auto"
                   >
                     <ProductCard product={product} sizes="(min-width: 640px) 30vw, 82vw" />
@@ -104,7 +104,10 @@ export function HomePage() {
           <Container>
             <Reveal className="max-w-2xl">
               <p className="eyebrow text-brand-600">Escolha por uso</p>
-              <h2 id="uso-heading" className="mt-3 text-display-md font-display text-ink-950">
+              <h2
+                id="uso-heading"
+                className="mt-3 text-display-md font-display text-balance text-ink-950"
+              >
                 Qual é o seu trajeto?
               </h2>
               <p className="mt-4 text-base leading-relaxed text-ink-600">
@@ -116,7 +119,12 @@ export function HomePage() {
               {categories.map(({ category, count }, index) => {
                 const content = categoryContent[category]
                 return (
-                  <Reveal as="li" key={category} delay={0.1 + index * 0.1}>
+                  <Reveal
+                    as="li"
+                    key={category}
+                    delay={0.1 + index * stagger.cards}
+                    className="min-w-0"
+                  >
                     <Link
                       to={`/catalogo?${PARAM.categoria}=${category}`}
                       viewTransition
@@ -152,7 +160,7 @@ export function HomePage() {
         aria-labelledby="beneficios-heading"
       >
         <div className="lg:grid lg:grid-cols-2">
-          <Reveal x={-32} y={0} className="relative lg:min-h-[44rem]">
+          <Reveal effect="wipe-left" amount={0.2} className="relative lg:min-h-[44rem]">
             <Picture
               image={coverImage(benefitsImage)}
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -168,12 +176,19 @@ export function HomePage() {
               >
                 <span className="block">Menos custo.</span>
                 <span className="block">Menos ruído.</span>
-                <span className="block text-brand-600">Menos oficina.</span>
+                <Reveal as="span" effect="wipe-left" delay={0.35} className="block text-brand-600">
+                  Menos oficina.
+                </Reveal>
               </h2>
             </Reveal>
             <ul className="mt-12 space-y-10 lg:mt-16 lg:space-y-12">
               {benefits.map((benefit, index) => (
-                <Reveal as="li" key={benefit.title} delay={0.1 + index * 0.14} className="max-w-md">
+                <Reveal
+                  as="li"
+                  key={benefit.title}
+                  delay={0.15 + index * stagger.blocks}
+                  className="max-w-md"
+                >
                   <h3 className="text-display-sm font-display text-ink-950">{benefit.title}</h3>
                   <p className="mt-3 text-base leading-relaxed text-ink-600">{benefit.text}</p>
                 </Reveal>
@@ -259,7 +274,11 @@ export function HomePage() {
             </Reveal>
           </div>
 
-          <Reveal x={32} y={0} delay={0.1} className="order-first lg:order-none lg:self-stretch">
+          <Reveal
+            effect="wipe-right"
+            amount={0.2}
+            className="order-first lg:order-none lg:self-stretch"
+          >
             <Picture
               image={coverImage(contactImage)}
               sizes="(min-width: 1024px) 45vw, 100vw"
@@ -272,10 +291,28 @@ export function HomePage() {
   )
 }
 
+const heroStagger: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: stagger.lines, delayChildren: 0.35 } },
+}
+
+/** Palavra do título sobe de dentro de uma linha recortada (overflow hidden). */
+const heroLine: Variants = {
+  hidden: { y: '110%' },
+  visible: { y: '0%', transition: { duration: duration.slow, ease: easeOutExpo } },
+}
+
+const heroRise: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: easeOutExpo } },
+}
+
 function Hero({ product }: { product: Product }) {
   const cover = product.images[0]
   const image = heroImage(cover?.path ?? 'moto-sport-rider', cover?.alt)
   const specs = primarySpecs(product)
+  const reduced = useReducedMotion()
+  const words = productTitle(product).split(' ')
 
   return (
     <section
@@ -283,19 +320,27 @@ function Hero({ product }: { product: Product }) {
       aria-labelledby="hero-heading"
     >
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-[68%]">
+        {/* Foto: máscara abre da direita pra esquerda; o zoom lento continua depois. */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.06 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: revealEase }}
+          initial={reduced ? { opacity: 0 } : wipeFromRight.hidden}
+          animate={reduced ? { opacity: 1 } : wipeFromRight.visible}
+          transition={{ duration: duration.wipe, ease: easeOutExpo }}
           className="h-full"
         >
-          <Picture
-            image={image}
-            sizes="(min-width: 1024px) 68vw, 100vw"
-            priority
-            className="aspect-[16/9] bg-ink-950 lg:aspect-auto lg:h-full"
-            imgClassName="object-center"
-          />
+          <motion.div
+            initial={reduced ? false : { scale: 1.12 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.8, ease: easeOutExpo }}
+            className="h-full origin-center"
+          >
+            <Picture
+              image={image}
+              sizes="(min-width: 1024px) 68vw, 100vw"
+              priority
+              className="aspect-[16/9] bg-ink-950 lg:aspect-auto lg:h-full"
+              imgClassName="object-center"
+            />
+          </motion.div>
         </motion.div>
         <div
           className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink-950 via-ink-950/50 via-30% to-transparent lg:block"
@@ -305,34 +350,63 @@ function Hero({ product }: { product: Product }) {
 
       <Container className="relative py-10 lg:flex lg:min-h-[640px] lg:items-center lg:py-20">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: revealEase }}
-          className="max-w-xl"
+          variants={heroStagger}
+          initial="hidden"
+          animate="visible"
+          className="max-w-xl min-w-0"
         >
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          {/* Acento rosa entra por máscara, não por opacidade. */}
+          <motion.span
+            aria-hidden
+            variants={reduced ? heroRise : wipeFromLeft}
+            transition={{ duration: 0.7, ease: easeOutExpo }}
+            className="mb-5 block h-0.5 w-12 bg-brand-500"
+          />
+          <motion.div variants={heroRise} className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <span className="eyebrow text-brand-400">{CATEGORY_LABELS[product.category]}</span>
             <AvailabilityBadge availability={product.availability} />
-          </div>
-          <h1 id="hero-heading" className="mt-4 text-display-lg font-display md:text-display-xl">
-            {productTitle(product)}
+          </motion.div>
+          <h1
+            id="hero-heading"
+            className="mt-4 text-display-lg font-display text-balance md:text-display-xl"
+          >
+            {words.map((word, index) => (
+              <span
+                key={`${word}-${index}`}
+                className="inline-block overflow-hidden pb-[0.08em] align-bottom"
+              >
+                <motion.span variants={heroLine} className="inline-block">
+                  {word}
+                </motion.span>
+                {index < words.length - 1 ? '\u00a0' : null}
+              </span>
+            ))}
           </h1>
-          <p className="mt-4 max-w-md text-base leading-relaxed text-ink-300 md:text-lg">
+          <motion.p
+            variants={heroRise}
+            className="mt-4 max-w-md text-base leading-relaxed text-ink-300 md:text-lg"
+          >
             {product.short_description}
-          </p>
+          </motion.p>
 
           {specs.length > 0 && (
-            <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/15 pt-6">
+            <motion.dl
+              variants={heroRise}
+              className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/15 pt-6"
+            >
               {specs.map((spec) => (
                 <div key={spec.key}>
                   <dt className="text-[11px] tracking-wide text-ink-400 uppercase">{spec.label}</dt>
                   <dd className="mt-0.5 text-xl font-display tabular-nums">{spec.value}</dd>
                 </div>
               ))}
-            </dl>
+            </motion.dl>
           )}
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <motion.div
+            variants={heroRise}
+            className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
+          >
             <Button to={`/produto/${product.slug}`} size="lg">
               Conhecer a {product.name}
               <ArrowRight className="size-5" aria-hidden />
@@ -340,7 +414,7 @@ function Hero({ product }: { product: Product }) {
             <Button to="/catalogo" variant="outline-light" size="lg">
               Ver catálogo
             </Button>
-          </div>
+          </motion.div>
         </motion.div>
       </Container>
     </section>

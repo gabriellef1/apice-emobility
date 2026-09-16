@@ -44,10 +44,26 @@ async function variant(source, id, width, ratio) {
   return file
 }
 
+function assertUnique(values, label) {
+  const seen = new Set()
+  for (const value of values) {
+    if (seen.has(value)) throw new Error(`images.json: ${label} repetido: ${value}`)
+    seen.add(value)
+  }
+}
+
 async function main() {
   await mkdir(CACHE, { recursive: true })
   await mkdir(OUT, { recursive: true })
   const manifest = JSON.parse(await readFile(MANIFEST, 'utf8'))
+  assertUnique(
+    manifest.images.map((image) => image.id),
+    'id',
+  )
+  assertUnique(
+    manifest.images.map((image) => image.unsplashId),
+    'unsplashId',
+  )
 
   for (const image of manifest.images) {
     const original = path.join(CACHE, `${image.unsplashId}.jpg`)
