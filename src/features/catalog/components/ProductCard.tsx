@@ -27,14 +27,15 @@ export function ProductCard({
     <article className="group relative flex h-full flex-col">
       <Link
         to={`/produto/${product.slug}`}
-        className="duration-base flex h-full flex-col rounded-lg border border-ink-200 bg-white transition-colors hover:border-ink-400 focus-visible:border-ink-400"
+        viewTransition
+        className="flex h-full flex-col rounded-lg border border-ink-200 bg-white transition-[border-color,box-shadow] duration-300 hover:border-ink-400 hover:shadow-card focus-visible:border-ink-400"
       >
         <Picture
           image={coverImage(cover?.path ?? 'detail-front', cover?.alt)}
           sizes={sizes}
           priority={priority}
           className="aspect-[4/3] rounded-t-lg"
-          imgClassName="transition-transform duration-slow ease-out-quart group-hover:scale-[1.03]"
+          imgClassName="transition-transform duration-700 ease-out-quart group-hover:scale-105"
         />
         <div className="flex flex-1 flex-col p-5">
           <div className="flex items-center justify-between gap-3">
@@ -64,7 +65,7 @@ export function ProductCard({
             <span className="duration-fast inline-flex items-center gap-1 text-sm font-medium text-ink-700 transition-colors group-hover:text-brand-600">
               Ver modelo
               <ArrowRight
-                className="duration-base size-4 transition-transform ease-out-quart group-hover:translate-x-0.5"
+                className="size-4 transition-transform duration-300 ease-out-quart group-hover:translate-x-1"
                 aria-hidden
               />
             </span>

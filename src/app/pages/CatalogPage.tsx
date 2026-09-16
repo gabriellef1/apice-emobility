@@ -1,5 +1,5 @@
 import { SlidersHorizontal } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, motion, type Variants } from 'motion/react'
 import { useMemo, useState } from 'react'
 import { useLoaderData } from 'react-router'
 
@@ -8,6 +8,7 @@ import { Seo } from '@/components/seo/Seo'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Drawer } from '@/components/ui/Drawer'
+import { revealEase } from '@/lib/motion'
 import { FilterPanel } from '@/features/catalog/components/FilterPanel'
 import { ProductCard } from '@/features/catalog/components/ProductCard'
 import { SortSelect } from '@/features/catalog/components/SortSelect'
@@ -15,6 +16,21 @@ import { useCatalogQuery } from '@/features/catalog/hooks/useCatalogQuery'
 import { filterProducts, sortProducts } from '@/features/catalog/lib/apply'
 import { buildFacets } from '@/features/catalog/lib/facets'
 import { countActiveFilters } from '@/features/catalog/lib/query'
+
+/**
+ * Entrada em cascata (60ms por card, teto em 8) e saída curta. `popLayout`
+ * tira o card que sai do fluxo na hora, então os vizinhos deslizam pro lugar.
+ */
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 24, scale: 0.98 },
+  show: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, delay: Math.min(index, 8) * 0.06, ease: revealEase },
+  }),
+  exit: { opacity: 0, scale: 0.96, transition: { duration: 0.2 } },
+}
 
 export function CatalogPage() {
   const { products } = useLoaderData<typeof catalogLoader>()
@@ -94,15 +110,16 @@ export function CatalogPage() {
 
             {results.length > 0 ? (
               <ul className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                <AnimatePresence initial={false}>
+                <AnimatePresence mode="popLayout">
                   {results.map((product, index) => (
                     <motion.li
                       key={product.id}
-                      layout="position"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.25 }}
+                      layout
+                      custom={index}
+                      variants={cardVariants}
+                      initial="hidden"
+                      animate="show"
+                      exit="exit"
                     >
                       <ProductCard product={product} priority={index < 3} />
                     </motion.li>
