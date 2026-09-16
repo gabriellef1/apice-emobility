@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal } from '@/components/ui/Reveal'
+import { revealEase } from '@/lib/motion'
 import { company } from '@/config/company'
 import { categoryContent } from '@/content/categories'
 import { coverImage, heroImage } from '@/content/images'
@@ -22,18 +23,21 @@ import { CATEGORY_LABELS, type Product } from '@/services/catalog'
 
 const benefits = [
   {
-    title: 'Recarga na tomada, não no posto',
-    text: 'Carrega em qualquer tomada comum, em casa ou no trabalho. O custo por quilômetro fica muito abaixo do combustível.',
+    title: 'Carrega em tomada comum',
+    text: 'Bateria removível ou cabo direto na tomada 220V de casa ou do trabalho. Sem posto, sem fila, sem troca de óleo.',
   },
   {
-    title: 'Manutenção simples',
-    text: 'Sem óleo, sem embreagem, sem escapamento e com muito menos peças móveis. Menos idas à oficina.',
+    title: 'Revisão é freio, pneu e bateria',
+    text: 'Sem óleo, sem embreagem, sem escapamento, sem corrente em modelos com motor no cubo. Sobram poucas peças pra desgastar.',
   },
   {
-    title: 'Silêncio e torque imediato',
-    text: 'O motor elétrico entrega força total desde a saída, sem ruído nem vibração. Pilotar na cidade fica mais leve.',
+    title: 'Força total desde a saída',
+    text: 'Motor elétrico entrega o torque máximo em zero rotação, sem marcha. Arrancar no sinal fica imediato e silencioso.',
   },
 ]
+
+const contactImage = 'detail-dash'
+const benefitsImage = 'ride-city'
 
 export function HomePage() {
   const { products } = useLoaderData<typeof homeLoader>()
@@ -67,6 +71,7 @@ export function HomePage() {
               </div>
               <Link
                 to="/catalogo"
+                viewTransition
                 className="inline-flex items-center gap-1.5 rounded-sm text-sm font-medium text-ink-900 hover:text-brand-600"
               >
                 Ver catálogo completo
@@ -82,7 +87,7 @@ export function HomePage() {
                   <Reveal
                     as="li"
                     key={product.id}
-                    delay={index * 0.06}
+                    delay={0.1 + index * 0.12}
                     className="w-[82%] shrink-0 snap-start sm:w-auto"
                   >
                     <ProductCard product={product} sizes="(min-width: 640px) 30vw, 82vw" />
@@ -111,16 +116,17 @@ export function HomePage() {
               {categories.map(({ category, count }, index) => {
                 const content = categoryContent[category]
                 return (
-                  <Reveal as="li" key={category} delay={index * 0.06}>
+                  <Reveal as="li" key={category} delay={0.1 + index * 0.1}>
                     <Link
                       to={`/catalogo?${PARAM.categoria}=${category}`}
+                      viewTransition
                       className="group block rounded-lg"
                     >
                       <Picture
                         image={coverImage(content.image)}
                         sizes="(min-width: 1024px) 22vw, 45vw"
                         className="aspect-[4/3] rounded-lg"
-                        imgClassName="transition-transform duration-slow ease-out-quart group-hover:scale-[1.03]"
+                        imgClassName="transition-transform duration-700 ease-out-quart group-hover:scale-105"
                       />
                       <div className="mt-3 flex items-baseline justify-between gap-2">
                         <h3 className="text-lg font-display text-ink-950 group-hover:text-brand-600">
@@ -142,100 +148,122 @@ export function HomePage() {
 
       <section
         id="por-que-eletrica"
-        className="scroll-mt-16 bg-paper-100 py-16 lg:py-24"
+        className="scroll-mt-16 overflow-hidden border-t border-ink-200 bg-paper-100"
         aria-labelledby="beneficios-heading"
       >
-        <Container className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
-          <Reveal>
-            <p className="eyebrow text-brand-600">Por que elétrica</p>
-            <h2 id="beneficios-heading" className="mt-3 text-display-md font-display text-ink-950">
-              Menos custo, menos ruído, menos oficina.
-            </h2>
-            <p className="mt-4 max-w-md text-base leading-relaxed text-ink-600">
-              Uma moto elétrica muda a rotina de quem roda todo dia. Não é promessa: é como o motor
-              funciona.
-            </p>
+        <div className="lg:grid lg:grid-cols-2">
+          <Reveal x={-32} y={0} className="relative lg:min-h-[44rem]">
+            <Picture
+              image={coverImage(benefitsImage)}
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="aspect-[4/3] lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
+            />
           </Reveal>
-          <ol className="divide-y divide-ink-200 border-y border-ink-200">
-            {benefits.map((benefit, index) => (
-              <Reveal
-                as="li"
-                key={benefit.title}
-                delay={index * 0.06}
-                className="grid gap-2 py-6 sm:grid-cols-[3rem_1fr]"
+          <div className="px-4 py-14 sm:px-6 lg:py-24 lg:pr-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pl-16 xl:pl-24">
+            <Reveal>
+              <p className="eyebrow text-brand-600">Por que elétrica</p>
+              <h2
+                id="beneficios-heading"
+                className="mt-4 max-w-xl text-display-md font-display text-ink-950 md:text-display-lg"
               >
-                <span className="text-sm font-display text-brand-600 tabular-nums">
-                  0{index + 1}
-                </span>
-                <div>
-                  <h3 className="text-xl font-display text-ink-950">{benefit.title}</h3>
-                  <p className="mt-2 text-base leading-relaxed text-ink-600">{benefit.text}</p>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
-        </Container>
-      </section>
-
-      <section id="sobre" className="scroll-mt-16 py-16 lg:py-24" aria-labelledby="sobre-heading">
-        <Container className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <p className="eyebrow text-brand-600">Sobre</p>
-            <h2 id="sobre-heading" className="mt-3 text-display-md font-display text-ink-950">
-              {company.name}
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-ink-600">
-              Revenda especializada em motos elétricas. Atendemos pelo WhatsApp e por e-mail, do
-              primeiro contato à entrega. Sem checkout online: cada orçamento é feito pra você.
-            </p>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <dl className="grid gap-5 text-sm sm:grid-cols-2">
-              <div>
-                <dt className="eyebrow text-ink-500">WhatsApp</dt>
-                <dd className="mt-1.5 text-ink-900">{company.whatsapp.display}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow text-ink-500">E-mail</dt>
-                <dd className="mt-1.5 break-all text-ink-900">{company.email}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow text-ink-500">Endereço</dt>
-                <dd className="mt-1.5 text-ink-500">{company.address ?? 'A confirmar'}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow text-ink-500">Horário</dt>
-                <dd className="mt-1.5 text-ink-500">{company.businessHours ?? 'A confirmar'}</dd>
-              </div>
-            </dl>
-          </Reveal>
-        </Container>
+                <span className="block">Menos custo.</span>
+                <span className="block">Menos ruído.</span>
+                <span className="block text-brand-600">Menos oficina.</span>
+              </h2>
+            </Reveal>
+            <ul className="mt-12 space-y-10 lg:mt-16 lg:space-y-12">
+              {benefits.map((benefit, index) => (
+                <Reveal as="li" key={benefit.title} delay={0.1 + index * 0.14} className="max-w-md">
+                  <h3 className="text-display-sm font-display text-ink-950">{benefit.title}</h3>
+                  <p className="mt-3 text-base leading-relaxed text-ink-600">{benefit.text}</p>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section
-        id="contato"
-        className="scroll-mt-16 bg-ink-950 py-16 text-white lg:py-24"
-        aria-labelledby="contato-heading"
+        id="sobre"
+        className="scroll-mt-16 bg-ink-950 text-white"
+        aria-labelledby="sobre-heading"
       >
-        <Container className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <Reveal className="max-w-xl">
-            <p className="eyebrow text-brand-400">Contato</p>
-            <h2 id="contato-heading" className="mt-3 text-display-md font-display">
-              Fale com a Ápice
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-ink-300">
-              Tire dúvidas, agende um test ride ou peça o orçamento do modelo que você escolheu.
-            </p>
-          </Reveal>
-          <Reveal delay={0.08} className="flex flex-col gap-3 sm:flex-row">
-            <Button href={whatsappLink()} target="_blank" rel="noopener noreferrer" size="lg">
-              <MessageCircle className="size-5" aria-hidden />
-              WhatsApp
-            </Button>
-            <Button href={`mailto:${company.email}`} variant="outline-light" size="lg">
-              <Mail className="size-5" aria-hidden />
-              E-mail
-            </Button>
+        <Container className="grid gap-12 py-16 lg:grid-cols-2 lg:gap-20 lg:py-24">
+          <div>
+            <Reveal>
+              <p className="eyebrow text-brand-400">Sobre a Ápice</p>
+              <h2
+                id="sobre-heading"
+                className="mt-4 text-display-md font-display md:text-display-lg"
+              >
+                Revenda de motos elétricas, atendimento direto.
+              </h2>
+              <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-300">
+                A {company.name} vende scooters, urbanas, trail e esportivas elétricas. Você escolhe
+                o modelo no catálogo, tira dúvidas de autonomia e carga e fecha o orçamento pelo
+                WhatsApp ou por e-mail.
+              </p>
+            </Reveal>
+
+            <Reveal id="contato" delay={0.15} className="mt-12 scroll-mt-24">
+              <h3 className="eyebrow text-brand-400">Contato</h3>
+              <dl className="mt-5 space-y-5">
+                <div>
+                  <dt className="text-sm text-ink-400">WhatsApp</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={whatsappLink()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xl font-display tabular-nums hover:text-brand-300"
+                    >
+                      {company.whatsapp.display}
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-ink-400">E-mail</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={`mailto:${company.email}`}
+                      className="text-xl font-display break-all hover:text-brand-300"
+                    >
+                      {company.email}
+                    </a>
+                  </dd>
+                </div>
+                {company.address && (
+                  <div>
+                    <dt className="text-sm text-ink-400">Endereço</dt>
+                    <dd className="mt-1 text-base">{company.address}</dd>
+                  </div>
+                )}
+                {company.businessHours && (
+                  <div>
+                    <dt className="text-sm text-ink-400">Horário</dt>
+                    <dd className="mt-1 text-base">{company.businessHours}</dd>
+                  </div>
+                )}
+              </dl>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button href={whatsappLink()} target="_blank" rel="noopener noreferrer" size="lg">
+                  <MessageCircle className="size-5" aria-hidden />
+                  Chamar no WhatsApp
+                </Button>
+                <Button href={`mailto:${company.email}`} variant="outline-light" size="lg">
+                  <Mail className="size-5" aria-hidden />
+                  Enviar e-mail
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal x={32} y={0} delay={0.1} className="order-first lg:order-none lg:self-stretch">
+            <Picture
+              image={coverImage(contactImage)}
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="aspect-[4/3] rounded-lg lg:aspect-auto lg:h-full lg:min-h-[32rem]"
+            />
           </Reveal>
         </Container>
       </section>
@@ -255,9 +283,9 @@ function Hero({ product }: { product: Product }) {
     >
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-[68%]">
         <motion.div
-          initial={{ opacity: 0, scale: 1.02 }}
+          initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+          transition={{ duration: 1.2, ease: revealEase }}
           className="h-full"
         >
           <Picture
@@ -276,9 +304,9 @@ function Hero({ product }: { product: Product }) {
 
       <Container className="relative py-10 lg:flex lg:min-h-[640px] lg:items-center lg:py-20">
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 1, 0.5, 1] }}
+          transition={{ duration: 0.8, delay: 0.2, ease: revealEase }}
           className="max-w-xl"
         >
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -326,13 +354,14 @@ function Spotlight({ product }: { product: Product }) {
     <Reveal className="mt-10">
       <Link
         to={`/produto/${product.slug}`}
-        className="group duration-base grid overflow-hidden rounded-lg border border-ink-200 bg-white transition-colors hover:border-ink-400 lg:grid-cols-[1.4fr_1fr]"
+        viewTransition
+        className="group grid overflow-hidden rounded-lg border border-ink-200 bg-white transition-[border-color,box-shadow] duration-300 hover:border-ink-400 hover:shadow-card lg:grid-cols-[1.4fr_1fr]"
       >
         <Picture
           image={coverImage(cover?.path ?? 'detail-front', cover?.alt)}
           sizes="(min-width: 1024px) 60vw, 100vw"
           className="aspect-[4/3] lg:aspect-auto lg:h-full"
-          imgClassName="transition-transform duration-slow ease-out-quart group-hover:scale-[1.03]"
+          imgClassName="transition-transform duration-700 ease-out-quart group-hover:scale-105"
         />
         <div className="flex flex-col p-6 lg:p-10">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -362,7 +391,7 @@ function Spotlight({ product }: { product: Product }) {
             <span className="inline-flex items-center gap-1 text-sm font-medium text-ink-700 group-hover:text-brand-600">
               Ver modelo
               <ArrowRight
-                className="duration-base size-4 transition-transform ease-out-quart group-hover:translate-x-0.5"
+                className="size-4 transition-transform duration-300 ease-out-quart group-hover:translate-x-1"
                 aria-hidden
               />
             </span>

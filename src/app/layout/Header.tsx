@@ -33,13 +33,18 @@ function NavItemLink({
 }) {
   if (to.includes('#')) {
     return (
-      <Link to={to} className={className(false)} onClick={onNavigate}>
+      <Link to={to} className={className(false)} onClick={onNavigate} viewTransition>
         {label}
       </Link>
     )
   }
   return (
-    <NavLink to={to} className={({ isActive }) => className(isActive)} onClick={onNavigate}>
+    <NavLink
+      to={to}
+      className={({ isActive }) => className(isActive)}
+      onClick={onNavigate}
+      viewTransition
+    >
       {label}
     </NavLink>
   )
@@ -50,12 +55,16 @@ export function Header() {
   const closeMenu = () => setMenuOpen(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-ink-950 text-white">
+    <header
+      className="sticky top-0 z-40 border-b border-white/10 bg-ink-950 text-white"
+      style={{ viewTransitionName: 'site-header' }}
+    >
       <Container className="flex h-16 items-center justify-between gap-4">
         <Link
           to="/"
           className="flex shrink-0 items-center rounded-sm"
           aria-label="Ápice E-Mobility, início"
+          viewTransition
         >
           <Logo height={38} />
         </Link>
