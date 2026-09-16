@@ -14,15 +14,15 @@ describe('parseCatalogQuery', () => {
 
   it('lê listas separadas por vírgula e ignora valores inválidos', () => {
     const query = parseCatalogQuery(
-      new URLSearchParams('categoria=scooter,invalida,trail&disponibilidade=in_stock,xyz'),
+      new URLSearchParams('categoria=scooter,invalida,moto&disponibilidade=in_stock,xyz'),
     )
-    expect(query.categoria).toEqual(['scooter', 'trail'])
+    expect(query.categoria).toEqual(['scooter', 'moto'])
     expect(query.disponibilidade).toEqual(['in_stock'])
   })
 
   it('remove duplicatas e espaços', () => {
-    const query = parseCatalogQuery(new URLSearchParams('categoria=scooter, scooter ,sport'))
-    expect(query.categoria).toEqual(['scooter', 'sport'])
+    const query = parseCatalogQuery(new URLSearchParams('categoria=scooter, scooter ,ebike'))
+    expect(query.categoria).toEqual(['scooter', 'ebike'])
   })
 
   it('cai pra relevância quando a ordenação é desconhecida', () => {
@@ -43,7 +43,7 @@ describe('serializeCatalogQuery', () => {
 
   it('faz ida e volta sem perder estado', () => {
     const query = {
-      categoria: ['trail', 'sport'] as const,
+      categoria: ['moto', 'ebike'] as const,
       disponibilidade: ['pre_order'] as const,
       destaque: true,
       ordem: 'autonomia-desc' as const,
@@ -55,10 +55,10 @@ describe('serializeCatalogQuery', () => {
       ordem: query.ordem,
     })
     expect(params.toString()).toBe(
-      'categoria=trail%2Csport&disponibilidade=pre_order&destaque=1&ordem=autonomia-desc',
+      'categoria=moto%2Cebike&disponibilidade=pre_order&destaque=1&ordem=autonomia-desc',
     )
     expect(parseCatalogQuery(params)).toEqual({
-      categoria: ['trail', 'sport'],
+      categoria: ['moto', 'ebike'],
       disponibilidade: ['pre_order'],
       destaque: true,
       ordem: 'autonomia-desc',

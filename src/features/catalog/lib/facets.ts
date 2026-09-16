@@ -19,7 +19,7 @@ export interface Facets {
   destaque: number | null
 }
 
-export const CATEGORY_ORDER: ProductCategory[] = ['scooter', 'street', 'trail', 'sport']
+export const CATEGORY_ORDER: ProductCategory[] = ['scooter', 'moto', 'ebike', 'triciclo']
 const AVAILABILITY_ORDER: Availability[] = ['in_stock', 'pre_order', 'sold_out']
 
 function countBy<T extends string>(

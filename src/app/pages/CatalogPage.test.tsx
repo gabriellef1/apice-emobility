@@ -10,8 +10,8 @@ import { CatalogPage } from './CatalogPage'
 const products = [
   makeProduct({ name: 'Scooter A', category: 'scooter', availability: 'in_stock', featured: true }),
   makeProduct({ name: 'Scooter B', category: 'scooter', availability: 'sold_out' }),
-  makeProduct({ name: 'Trail C', category: 'trail', availability: 'pre_order' }),
-  makeProduct({ name: 'Sport D', category: 'sport', availability: 'in_stock', price: 5000000 }),
+  makeProduct({ name: 'Moto C', category: 'moto', availability: 'pre_order' }),
+  makeProduct({ name: 'Ebike D', category: 'ebike', availability: 'in_stock', price: 5000000 }),
 ]
 
 function renderCatalog(initialEntry = '/catalogo') {
@@ -43,10 +43,10 @@ async function expectResults(names: string[]) {
 
 describe('CatalogPage', () => {
   it('lê os filtros da URL ao abrir', async () => {
-    renderCatalog('/catalogo?categoria=trail')
-    expect(await resultNames()).toEqual(['Trail C'])
+    renderCatalog('/catalogo?categoria=moto')
+    expect(await resultNames()).toEqual(['Aima Moto C'])
     const sidebar = screen.getByRole('complementary', { name: 'Filtros' })
-    expect(within(sidebar).getByRole('checkbox', { name: /Trail/ })).toBeChecked()
+    expect(within(sidebar).getByRole('checkbox', { name: /Moto/ })).toBeChecked()
   })
 
   it('marcar filtro atualiza a URL (replace) e a lista', async () => {
@@ -61,7 +61,7 @@ describe('CatalogPage', () => {
     await waitFor(() => {
       expect(router.state.location.search).toBe('?categoria=scooter&disponibilidade=in_stock')
     })
-    await expectResults(['Scooter A'])
+    await expectResults(['Aima Scooter A'])
     expect(router.state.historyAction).toBe('REPLACE')
   })
 
@@ -72,12 +72,12 @@ describe('CatalogPage', () => {
     await waitFor(() => {
       expect(router.state.location.search).toBe('?ordem=preco-desc')
     })
-    expect((await resultNames())[0]).toBe('Sport D')
+    expect((await resultNames())[0]).toBe('Aima Ebike D')
   })
 
   it('estado vazio oferece limpar filtros', async () => {
     const user = userEvent.setup()
-    const router = renderCatalog('/catalogo?categoria=trail&disponibilidade=sold_out')
+    const router = renderCatalog('/catalogo?categoria=moto&disponibilidade=sold_out')
     expect(await screen.findByText('Nenhum modelo com esses filtros')).toBeInTheDocument()
     await user.click(within(await results()).getByRole('button', { name: 'Limpar filtros' }))
     await waitFor(() => {
@@ -94,7 +94,7 @@ describe('CatalogPage', () => {
     await user.click(await screen.findByRole('button', { name: /Filtrar/ }))
     const dialog = screen.getByRole('dialog', { name: 'Filtros' })
     expect(dialog).toHaveAttribute('open')
-    expect(within(dialog).getByRole('checkbox', { name: /Trail/ })).toBeInTheDocument()
+    expect(within(dialog).getByRole('checkbox', { name: /Moto/ })).toBeInTheDocument()
     expect(within(dialog).getByRole('button', { name: 'Fechar filtros' })).toBeInTheDocument()
   })
 })

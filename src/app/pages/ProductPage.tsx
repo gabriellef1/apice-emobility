@@ -13,7 +13,9 @@ import { Price } from '@/features/product/components/Price'
 import { listSpecs } from '@/features/product/lib/specs'
 import { cn } from '@/lib/cn'
 import { whatsappLink } from '@/lib/whatsapp'
-import { CATEGORY_LABELS } from '@/services/catalog'
+import { CATEGORY_LABELS, productTitle } from '@/services/catalog'
+
+import { ProductJsonLd } from '@/features/product/components/ProductJsonLd'
 
 /**
  * Versão mínima da página de produto (Fase 1): galeria simples, specs e CTA.
@@ -26,15 +28,18 @@ export function ProductPage() {
   const active = images[activeIndex] ?? images[0]
   const specs = listSpecs(product)
   const colors = product.specifications.colors ?? []
+  const title = productTitle(product)
 
   return (
     <>
       <Seo
-        title={product.name}
+        title={title}
         description={product.short_description}
         type="product"
         image={active ? coverImage(active.path).src : undefined}
       />
+
+      <ProductJsonLd product={product} image={active ? coverImage(active.path).src : undefined} />
 
       <Container className="py-8 lg:py-12">
         <Link
@@ -92,7 +97,7 @@ export function ProductPage() {
               <AvailabilityBadge availability={product.availability} />
             </div>
             <h1 className="mt-3 text-display-md font-display text-ink-950 md:text-display-lg">
-              {product.name}
+              {title}
             </h1>
             <p className="mt-4 text-base leading-relaxed text-ink-600">
               {product.short_description}
@@ -109,7 +114,7 @@ export function ProductPage() {
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button
-                href={whatsappLink(product.name)}
+                href={whatsappLink(title)}
                 target="_blank"
                 rel="noopener noreferrer"
                 size="lg"

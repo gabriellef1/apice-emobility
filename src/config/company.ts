@@ -7,6 +7,9 @@ export const company = {
   name: 'Ápice E-Mobility',
   shortName: 'Ápice',
   tagline: 'Motos elétricas para novos caminhos',
+  /** Fabricante representada. Só menção textual: sem logo ou material da Aima até haver kit oficial. */
+  brand: 'Aima',
+  dealerStatus: 'Revenda autorizada',
   email: 'contatoemobility@gmail.com',
   whatsapp: {
     /** E.164, sem "+": usado no link wa.me. */

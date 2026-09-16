@@ -9,6 +9,7 @@ export function makeProduct(overrides: Partial<Product> = {}): Product {
   const base: Product = {
     id,
     slug: `modelo-${counter}`,
+    brand: 'Aima',
     name: `Modelo ${counter}`,
     short_description: 'Descrição curta.',
     description: 'Descrição longa do modelo.',
@@ -20,7 +21,7 @@ export function makeProduct(overrides: Partial<Product> = {}): Product {
     active: true,
     sort_order: counter,
     specifications: { range_km: 80, top_speed_kmh: 60, motor_power_w: 2000 },
-    images: [{ id: `${id}-img`, product_id: id, path: 'detail-front', alt: 'Foto', sort_order: 0 }],
+    images: [{ id: `${id}-img`, product_id: id, path: 'detail-dash', alt: 'Foto', sort_order: 0 }],
     created_at: '2026-01-01T00:00:00.000Z',
     updated_at: '2026-01-01T00:00:00.000Z',
   }

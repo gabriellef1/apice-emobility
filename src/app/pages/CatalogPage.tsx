@@ -60,7 +60,7 @@ export function CatalogPage() {
     <>
       <Seo
         title="Catálogo de motos elétricas"
-        description="Todos os modelos da Ápice E-Mobility: scooters, urbanas, trail e esportivas. Filtre por categoria e disponibilidade e peça seu orçamento."
+        description="Todos os modelos Aima na Ápice E-Mobility: scooters, ciclomotores, motos e bikes elétricas. Filtre por categoria e disponibilidade e peça seu orçamento."
       />
 
       <Container className="py-10 lg:py-14">

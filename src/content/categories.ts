@@ -9,8 +9,17 @@ interface CategoryContent {
 
 /** Texto e foto do bloco "Escolha por uso" da home. Só categorias com produto aparecem. */
 export const categoryContent: Record<ProductCategory, CategoryContent> = {
-  scooter: { blurb: 'Deslocamento diário com conforto e porta-objetos.', image: 'detail-dash' },
-  street: { blurb: 'Leve, minimalista, pra trajetos curtos na cidade.', image: 'ride-street' },
-  trail: { blurb: 'Terra, areia e cidade com suspensão de longo curso.', image: 'trail-orange' },
-  sport: { blurb: 'Desempenho de estrada com torque instantâneo.', image: 'sport-city' },
+  scooter: {
+    blurb: 'Até 32 km/h, pra rotina na cidade sem complicação.',
+    image: 'scooter-small-white',
+  },
+  moto: {
+    blurb: 'Mais velocidade e autonomia pra avenida e estrada.',
+    image: 'moto-sport-charging',
+  },
+  ebike: {
+    blurb: 'Pedal assistido com sensor de torque e bateria removível.',
+    image: 'ebike-cruiser',
+  },
+  triciclo: { blurb: 'Três rodas pra passageiros ou carga.', image: 'ride-street' },
 }

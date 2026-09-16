@@ -6,7 +6,7 @@ import { coverImage } from '@/content/images'
 import { AvailabilityBadge } from '@/features/product/components/AvailabilityBadge'
 import { Price } from '@/features/product/components/Price'
 import { primarySpecs } from '@/features/product/lib/specs'
-import { CATEGORY_LABELS, type Product } from '@/services/catalog'
+import { CATEGORY_LABELS, type Product, productTitle } from '@/services/catalog'
 
 interface ProductCardProps {
   product: Product
@@ -31,7 +31,7 @@ export function ProductCard({
         className="flex h-full flex-col rounded-lg border border-ink-200 bg-white transition-[border-color,box-shadow] duration-300 hover:border-ink-400 hover:shadow-card focus-visible:border-ink-400"
       >
         <Picture
-          image={coverImage(cover?.path ?? 'detail-front', cover?.alt)}
+          image={coverImage(cover?.path ?? 'detail-dash', cover?.alt)}
           sizes={sizes}
           priority={priority}
           className="aspect-[4/3] rounded-t-lg"
@@ -42,7 +42,7 @@ export function ProductCard({
             <span className="eyebrow text-ink-500">{CATEGORY_LABELS[product.category]}</span>
             <AvailabilityBadge availability={product.availability} />
           </div>
-          <h3 className="mt-2 text-xl font-display text-ink-950">{product.name}</h3>
+          <h3 className="mt-2 text-xl font-display text-ink-950">{productTitle(product)}</h3>
           <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-ink-500">
             {product.short_description}
           </p>

@@ -19,7 +19,7 @@ import { AvailabilityBadge } from '@/features/product/components/AvailabilityBad
 import { Price } from '@/features/product/components/Price'
 import { primarySpecs } from '@/features/product/lib/specs'
 import { whatsappLink } from '@/lib/whatsapp'
-import { CATEGORY_LABELS, type Product } from '@/services/catalog'
+import { CATEGORY_LABELS, type Product, productTitle } from '@/services/catalog'
 
 const benefits = [
   {
@@ -36,7 +36,7 @@ const benefits = [
   },
 ]
 
-const contactImage = 'detail-dash'
+const contactImage = 'moto-sport-charging'
 const benefitsImage = 'ride-city'
 
 export function HomePage() {
@@ -196,12 +196,13 @@ export function HomePage() {
                 id="sobre-heading"
                 className="mt-4 text-display-md font-display md:text-display-lg"
               >
-                Revenda de motos elétricas, atendimento direto.
+                {company.dealerStatus} {company.brand}.
               </h2>
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-300">
-                A {company.name} vende scooters, urbanas, trail e esportivas elétricas. Você escolhe
-                o modelo no catálogo, tira dúvidas de autonomia e carga e fecha o orçamento pelo
-                WhatsApp ou por e-mail.
+                A {company.name} é {company.dealerStatus.toLowerCase()} {company.brand}: scooters,
+                ciclomotores, motos e bikes elétricas da fabricante, com atendimento direto. Você
+                escolhe o modelo no catálogo, tira dúvidas de autonomia e carga e fecha o orçamento
+                pelo WhatsApp ou por e-mail.
               </p>
             </Reveal>
 
@@ -273,7 +274,7 @@ export function HomePage() {
 
 function Hero({ product }: { product: Product }) {
   const cover = product.images[0]
-  const image = heroImage(cover?.path ?? 'hero-gtr', cover?.alt)
+  const image = heroImage(cover?.path ?? 'moto-sport-rider', cover?.alt)
   const specs = primarySpecs(product)
 
   return (
@@ -314,7 +315,7 @@ function Hero({ product }: { product: Product }) {
             <AvailabilityBadge availability={product.availability} />
           </div>
           <h1 id="hero-heading" className="mt-4 text-display-lg font-display md:text-display-xl">
-            {product.name}
+            {productTitle(product)}
           </h1>
           <p className="mt-4 max-w-md text-base leading-relaxed text-ink-300 md:text-lg">
             {product.short_description}
@@ -358,7 +359,7 @@ function Spotlight({ product }: { product: Product }) {
         className="group grid overflow-hidden rounded-lg border border-ink-200 bg-white transition-[border-color,box-shadow] duration-300 hover:border-ink-400 hover:shadow-card lg:grid-cols-[1.4fr_1fr]"
       >
         <Picture
-          image={coverImage(cover?.path ?? 'detail-front', cover?.alt)}
+          image={coverImage(cover?.path ?? 'detail-dash', cover?.alt)}
           sizes="(min-width: 1024px) 60vw, 100vw"
           className="aspect-[4/3] lg:aspect-auto lg:h-full"
           imgClassName="transition-transform duration-700 ease-out-quart group-hover:scale-105"
@@ -369,7 +370,7 @@ function Spotlight({ product }: { product: Product }) {
             <AvailabilityBadge availability={product.availability} />
           </div>
           <h3 className="mt-3 text-display-sm font-display text-ink-950 lg:text-display-md">
-            {product.name}
+            {productTitle(product)}
           </h3>
           <p className="mt-3 text-base leading-relaxed text-ink-600">{product.short_description}</p>
 

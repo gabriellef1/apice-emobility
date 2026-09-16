@@ -7,7 +7,12 @@ import { z } from 'zod'
  * admin envia (sem id e timestamps).
  */
 
-export const productCategorySchema = z.enum(['scooter', 'street', 'trail', 'sport'])
+/**
+ * Categorias seguem a linha da fabricante e a decisão real de compra no Brasil:
+ * scooter (até 32 km/h), moto (ciclomotor/moto elétrica, mais velocidade),
+ * ebike (pedal assistido) e triciclo (passageiros ou carga).
+ */
+export const productCategorySchema = z.enum(['scooter', 'moto', 'ebike', 'triciclo'])
 export type ProductCategory = z.infer<typeof productCategorySchema>
 
 /**
@@ -50,6 +55,9 @@ const productColumns = z.object({
     .string()
     .min(1)
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slug em kebab-case'),
+  /** Fabricante (ex.: "Aima"). Fica no modelo pra suportar outra marca depois. */
+  brand: z.string().min(1),
+  /** Nome do modelo sem a marca (ex.: "X6"). A UI compõe "Aima X6". */
   name: z.string().min(1),
   short_description: z.string().min(1).max(160),
   description: z.string().min(1),
@@ -91,9 +99,14 @@ export type ProductInput = z.infer<typeof productInputSchema>
 
 export const CATEGORY_LABELS: Record<ProductCategory, string> = {
   scooter: 'Scooter',
-  street: 'Urbana',
-  trail: 'Trail',
-  sport: 'Esportiva',
+  moto: 'Moto',
+  ebike: 'Bike elétrica',
+  triciclo: 'Triciclo',
+}
+
+/** "Aima X6": marca + modelo, usado em títulos, cards e na mensagem do WhatsApp. */
+export function productTitle(product: Pick<Product, 'brand' | 'name'>): string {
+  return `${product.brand} ${product.name}`
 }
 
 export const AVAILABILITY_LABELS: Record<Availability, string> = {

@@ -17,20 +17,20 @@ function renderCard(product = makeProduct()) {
 describe('ProductCard', () => {
   it('mostra nome, categoria, preço, status e 3 specs, e linka pro produto', () => {
     const product = makeProduct({
-      name: 'Ápice Teste',
-      slug: 'apice-teste',
-      category: 'trail',
+      name: 'Teste',
+      slug: 'aima-teste',
+      category: 'moto',
       availability: 'pre_order',
       price: 2790000,
       specifications: { range_km: 90, top_speed_kmh: 75, motor_power_w: 5000, weight_kg: 78 },
     })
     renderCard(product)
 
-    expect(screen.getByRole('heading', { name: 'Ápice Teste' })).toBeInTheDocument()
-    expect(screen.getByText('Trail')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Aima Teste' })).toBeInTheDocument()
+    expect(screen.getByText('Moto')).toBeInTheDocument()
     expect(screen.getByText('Sob encomenda')).toBeInTheDocument()
     expect(screen.getByText(/27\.900/)).toBeInTheDocument()
-    expect(screen.getByRole('link')).toHaveAttribute('href', '/produto/apice-teste')
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/produto/aima-teste')
 
     const terms = screen.getAllByRole('term').map((el) => el.textContent)
     expect(terms).toEqual(['Autonomia', 'Velocidade', 'Potência'])
@@ -46,7 +46,7 @@ describe('ProductCard', () => {
     renderCard(
       makeProduct({
         images: [
-          { id: 'i', product_id: 'p', path: 'detail-front', alt: 'Foto lateral', sort_order: 0 },
+          { id: 'i', product_id: 'p', path: 'detail-dash', alt: 'Foto lateral', sort_order: 0 },
         ],
       }),
     )

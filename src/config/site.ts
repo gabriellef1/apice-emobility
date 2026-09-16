@@ -10,7 +10,7 @@ export const site = {
   defaultTitle: 'Ápice E-Mobility · Motos elétricas',
   titleTemplate: '%s · Ápice E-Mobility',
   defaultDescription:
-    'Catálogo de motos elétricas da Ápice E-Mobility: scooters, urbanas, trail e esportivas. Veja especificações e peça seu orçamento pelo WhatsApp.',
+    'Ápice E-Mobility, revenda autorizada Aima: scooters, ciclomotores, motos e bikes elétricas. Veja especificações e peça seu orçamento pelo WhatsApp.',
   locale: 'pt_BR',
   /**
    * Enquanto o catálogo usa dados mockados, o site avisa que é demonstrativo.

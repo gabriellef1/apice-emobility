@@ -18,7 +18,7 @@ const products = [
   }),
   makeProduct({
     id: 'b',
-    category: 'trail',
+    category: 'moto',
     availability: 'pre_order',
     featured: false,
     price: 100,
@@ -27,7 +27,7 @@ const products = [
   }),
   makeProduct({
     id: 'c',
-    category: 'sport',
+    category: 'ebike',
     availability: 'sold_out',
     featured: false,
     price: null,
@@ -51,8 +51,8 @@ describe('buildFacets', () => {
     const facets = buildFacets(products)
     expect(facets.categoria).toEqual([
       { value: 'scooter', label: 'Scooter', count: 2 },
-      { value: 'trail', label: 'Trail', count: 1 },
-      { value: 'sport', label: 'Esportiva', count: 1 },
+      { value: 'moto', label: 'Moto', count: 1 },
+      { value: 'ebike', label: 'Bike elétrica', count: 1 },
     ])
     expect(facets.disponibilidade.map((o) => o.value)).toEqual([
       'in_stock',
@@ -71,10 +71,7 @@ describe('buildFacets', () => {
   })
 
   it('esconde destaque quando todos são destaque', () => {
-    const all = [
-      makeProduct({ featured: true }),
-      makeProduct({ featured: true, category: 'trail' }),
-    ]
+    const all = [makeProduct({ featured: true }), makeProduct({ featured: true, category: 'moto' })]
     expect(buildFacets(all).destaque).toBeNull()
   })
 })
@@ -95,7 +92,7 @@ describe('filterProducts', () => {
   })
 
   it('dentro da mesma faceta é OU', () => {
-    const result = filterProducts(products, { ...DEFAULT_QUERY, categoria: ['trail', 'sport'] })
+    const result = filterProducts(products, { ...DEFAULT_QUERY, categoria: ['moto', 'ebike'] })
     expect(result.map((p) => p.id)).toEqual(['b', 'c'])
   })
 })

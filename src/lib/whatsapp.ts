@@ -6,7 +6,7 @@ import { company } from '@/config/company'
  */
 export function whatsappMessage(modelName?: string): string {
   if (!modelName)
-    return 'Olá! Gostaria de saber mais informações sobre as motos elétricas da Ápice.'
+    return 'Olá! Gostaria de saber mais informações sobre as motos elétricas Aima da Ápice.'
   return `Olá! Tenho interesse na ${modelName} e gostaria de saber mais informações.`
 }
 
