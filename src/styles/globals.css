@@ -36,6 +36,39 @@
   }
 }
 
+/*
+ * Transição entre rotas com a View Transitions API (React Router `viewTransition`).
+ * Nativa, sem JS extra, e o header sai da animação por ter o próprio grupo.
+ * Navegadores sem suporte só trocam a página.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: 180ms cubic-bezier(0.22, 1, 0.36, 1) both route-out;
+  }
+  ::view-transition-new(root) {
+    animation: 320ms cubic-bezier(0.22, 1, 0.36, 1) both route-in;
+  }
+}
+
+::view-transition-old(site-header),
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@keyframes route-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes route-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
 @utility font-display {
   font-weight: 600;
   font-stretch: 110%;

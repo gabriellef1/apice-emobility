@@ -39,6 +39,7 @@ export function ProductPage() {
       <Container className="py-8 lg:py-12">
         <Link
           to="/catalogo"
+          viewTransition
           className="inline-flex items-center gap-1.5 rounded-sm text-sm text-ink-600 hover:text-ink-950"
         >
           <ArrowLeft className="size-4" aria-hidden />

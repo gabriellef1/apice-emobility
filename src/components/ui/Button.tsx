@@ -54,7 +54,7 @@ export function Button(props: ButtonProps) {
   if ('to' in props && props.to !== undefined) {
     const { to, variant: _v, size: _s, className: _c, children: _ch, ...rest } = props
     return (
-      <Link to={to} className={classes} {...rest}>
+      <Link to={to} className={classes} viewTransition {...rest}>
         {children}
       </Link>
     )
