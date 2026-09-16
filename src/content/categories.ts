@@ -15,11 +15,11 @@ export const categoryContent: Record<ProductCategory, CategoryContent> = {
   },
   moto: {
     blurb: 'Mais velocidade e autonomia pra avenida e estrada.',
-    image: 'moto-sport-charging',
+    image: 'ride-street',
   },
   ebike: {
     blurb: 'Pedal assistido com sensor de torque e bateria removível.',
     image: 'ebike-cruiser',
   },
-  triciclo: { blurb: 'Três rodas pra passageiros ou carga.', image: 'ride-street' },
+  triciclo: { blurb: 'Três rodas pra passageiros ou carga.', image: 'scooter-mini-pair' },
 }

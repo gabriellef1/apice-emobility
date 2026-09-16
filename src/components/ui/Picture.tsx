@@ -1,3 +1,5 @@
+import { type CSSProperties } from 'react'
+
 import { type ImageSource } from '@/content/images'
 import { cn } from '@/lib/cn'
 
@@ -8,15 +10,25 @@ interface PictureProps {
   priority?: boolean
   className?: string
   imgClassName?: string
+  style?: CSSProperties
+  'data-card-picture'?: boolean
 }
 
 /**
  * Imagem responsiva com proporção fixa (largura/altura no <img>) pra não ter
  * layout shift. Lazy por padrão; `priority` pra imagem acima da dobra.
  */
-export function Picture({ image, sizes, priority = false, className, imgClassName }: PictureProps) {
+export function Picture({
+  image,
+  sizes,
+  priority = false,
+  className,
+  imgClassName,
+  style,
+  ...rest
+}: PictureProps) {
   return (
-    <div className={cn('overflow-hidden bg-ink-100', className)}>
+    <div className={cn('overflow-hidden bg-ink-100', className)} style={style} {...rest}>
       <img
         src={image.src}
         srcSet={image.srcSet}

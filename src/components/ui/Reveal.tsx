@@ -57,21 +57,42 @@ export function Reveal({
 }: RevealProps) {
   const Component = tags[as]
   const isWipe = effect !== 'rise'
+  const transition = {
+    duration: isWipe ? duration.wipe : duration.slow,
+    delay,
+    ease: easeOutExpo,
+  }
+
+  if (!isWipe) {
+    return (
+      <Component
+        id={id}
+        variants={rise}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount }}
+        transition={transition}
+        className={className}
+      >
+        {children}
+      </Component>
+    )
+  }
+
+  // Máscara: quem observa a viewport é o wrapper sem clip-path (o Chrome
+  // desconta o clip-path no cálculo de interseção e o elemento recortado a
+  // 100% nunca "entra"). O filho herda a variante e anima o recorte.
   return (
     <Component
       id={id}
-      variants={effects[effect]}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount }}
-      transition={{
-        duration: isWipe ? duration.wipe : duration.slow,
-        delay,
-        ease: easeOutExpo,
-      }}
       className={className}
     >
-      {children}
+      <motion.div variants={effects[effect]} transition={transition} className="h-full">
+        {children}
+      </motion.div>
     </Component>
   )
 }

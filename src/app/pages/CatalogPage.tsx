@@ -8,7 +8,8 @@ import { Seo } from '@/components/seo/Seo'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Drawer } from '@/components/ui/Drawer'
-import { revealEase } from '@/lib/motion'
+import { SplitText } from '@/components/ui/SplitText'
+import { easeOutExpo, stagger } from '@/lib/motion'
 import { FilterPanel } from '@/features/catalog/components/FilterPanel'
 import { ProductCard } from '@/features/catalog/components/ProductCard'
 import { SortSelect } from '@/features/catalog/components/SortSelect'
@@ -27,7 +28,7 @@ const cardVariants: Variants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.5, delay: Math.min(index, 8) * 0.06, ease: revealEase },
+    transition: { duration: 0.6, delay: Math.min(index, 8) * stagger.cards, ease: easeOutExpo },
   }),
   exit: { opacity: 0, scale: 0.96, transition: { duration: 0.2 } },
 }
@@ -66,9 +67,12 @@ export function CatalogPage() {
       <Container className="py-10 lg:py-14">
         <header className="max-w-2xl">
           <p className="eyebrow text-brand-600">Catálogo</p>
-          <h1 className="mt-3 text-display-md font-display text-ink-950 md:text-display-lg">
-            Motos elétricas
-          </h1>
+          <SplitText
+            as="h1"
+            text="Motos elétricas"
+            effect="line"
+            className="mt-3 text-display-md font-display text-ink-950 md:text-display-lg"
+          />
           <p className="mt-4 text-base leading-relaxed text-ink-600">
             Compare autonomia, velocidade e potência, escolha o modelo e peça um orçamento pelo
             WhatsApp.

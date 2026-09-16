@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal } from '@/components/ui/Reveal'
+import { SplitText } from '@/components/ui/SplitText'
 import { duration, easeOutExpo, stagger, wipeFromLeft, wipeFromRight } from '@/lib/motion'
 import { company } from '@/config/company'
 import { categoryContent } from '@/content/categories'
@@ -36,7 +37,7 @@ const benefits = [
   },
 ]
 
-const contactImage = 'moto-sport-charging'
+const contactImage = 'detail-dash'
 const benefitsImage = 'ride-city'
 
 export function HomePage() {
@@ -62,12 +63,11 @@ export function HomePage() {
             <Reveal className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="eyebrow text-brand-600">Em destaque</p>
-                <h2
+                <SplitText
                   id="destaques-heading"
+                  text="Modelos em destaque"
                   className="mt-3 text-display-md font-display text-balance text-ink-950"
-                >
-                  Modelos em destaque
-                </h2>
+                />
               </div>
               <Link
                 to="/catalogo"
@@ -104,12 +104,11 @@ export function HomePage() {
           <Container>
             <Reveal className="max-w-2xl">
               <p className="eyebrow text-brand-600">Escolha por uso</p>
-              <h2
+              <SplitText
                 id="uso-heading"
+                text="Qual é o seu trajeto?"
                 className="mt-3 text-display-md font-display text-balance text-ink-950"
-              >
-                Qual é o seu trajeto?
-              </h2>
+              />
               <p className="mt-4 text-base leading-relaxed text-ink-600">
                 Cada categoria resolve um tipo de deslocamento. Escolha a sua e veja só os modelos
                 que fazem sentido.
@@ -207,12 +206,12 @@ export function HomePage() {
           <div>
             <Reveal>
               <p className="eyebrow text-brand-400">Sobre a Ápice</p>
-              <h2
+              <SplitText
                 id="sobre-heading"
+                text={`${company.dealerStatus} ${company.brand}.`}
+                effect="line"
                 className="mt-4 text-display-md font-display md:text-display-lg"
-              >
-                {company.dealerStatus} {company.brand}.
-              </h2>
+              />
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-300">
                 A {company.name} é {company.dealerStatus.toLowerCase()} {company.brand}: scooters,
                 ciclomotores, motos e bikes elétricas da fabricante, com atendimento direto. Você
@@ -343,7 +342,7 @@ function Hero({ product }: { product: Product }) {
           </motion.div>
         </motion.div>
         <div
-          className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink-950 via-ink-950/50 via-30% to-transparent lg:block"
+          className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink-950 from-15% via-ink-950/60 via-45% to-transparent lg:block"
           aria-hidden
         />
       </div>

@@ -7,6 +7,7 @@ import { Seo } from '@/components/seo/Seo'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Picture } from '@/components/ui/Picture'
+import { SplitText } from '@/components/ui/SplitText'
 import { coverImage } from '@/content/images'
 import { AvailabilityBadge } from '@/features/product/components/AvailabilityBadge'
 import { Price } from '@/features/product/components/Price'
@@ -60,6 +61,7 @@ export function ProductPage() {
                 sizes="(min-width: 1024px) 55vw, 100vw"
                 priority
                 className="aspect-[4/3] rounded-lg"
+                style={{ viewTransitionName: `product-${product.slug}` }}
               />
             )}
             {images.length > 1 && (
@@ -96,9 +98,12 @@ export function ProductPage() {
               <span className="eyebrow text-ink-500">{CATEGORY_LABELS[product.category]}</span>
               <AvailabilityBadge availability={product.availability} />
             </div>
-            <h1 className="mt-3 text-display-md font-display text-ink-950 md:text-display-lg">
-              {title}
-            </h1>
+            <SplitText
+              as="h1"
+              text={title}
+              effect="line"
+              className="mt-3 text-display-md font-display text-ink-950 md:text-display-lg"
+            />
             <p className="mt-4 text-base leading-relaxed text-ink-600">
               {product.short_description}
             </p>

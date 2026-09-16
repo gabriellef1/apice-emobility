@@ -28,21 +28,30 @@ export function ProductCard({
       <Link
         to={`/produto/${product.slug}`}
         viewTransition
-        className="flex h-full flex-col rounded-lg border border-ink-200 bg-white transition-[border-color,box-shadow] duration-300 hover:border-ink-400 hover:shadow-card focus-visible:border-ink-400"
+        onClick={(event) => {
+          // Só o card clicado ganha o nome compartilhado: a foto dele vira a foto
+          // grande do produto na transição, os outros ficam parados.
+          const picture = event.currentTarget.querySelector<HTMLElement>('[data-card-picture]')
+          if (picture) picture.style.viewTransitionName = `product-${product.slug}`
+        }}
+        className="flex h-full flex-col rounded-lg border border-ink-200 bg-white transition-[border-color,box-shadow] duration-200 ease-snap hover:border-ink-950 hover:shadow-card focus-visible:border-ink-950 focus-visible:shadow-card focus-visible:outline-offset-4"
       >
         <Picture
           image={coverImage(cover?.path ?? 'detail-dash', cover?.alt)}
           sizes={sizes}
           priority={priority}
           className="aspect-[4/3] rounded-t-lg"
-          imgClassName="transition-transform duration-700 ease-out-quart group-hover:scale-105"
+          imgClassName="transition-transform duration-900 ease-out-expo group-hover:scale-[1.07] group-focus-within:scale-[1.07]"
+          data-card-picture
         />
         <div className="flex flex-1 flex-col p-5">
           <div className="flex items-center justify-between gap-3">
             <span className="eyebrow text-ink-500">{CATEGORY_LABELS[product.category]}</span>
             <AvailabilityBadge availability={product.availability} />
           </div>
-          <h3 className="mt-2 text-xl font-display text-ink-950">{productTitle(product)}</h3>
+          <h3 className="mt-2 text-xl font-display text-ink-950 transition-colors delay-75 duration-300 group-focus-within:text-brand-600 group-hover:text-brand-600">
+            {productTitle(product)}
+          </h3>
           <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-ink-500">
             {product.short_description}
           </p>
@@ -62,10 +71,10 @@ export function ProductCard({
 
           <div className="mt-auto flex items-end justify-between gap-3 pt-5">
             <Price product={product} />
-            <span className="duration-fast inline-flex items-center gap-1 text-sm font-medium text-ink-700 transition-colors group-hover:text-brand-600">
+            <span className="inline-flex items-center gap-1 text-sm font-medium text-ink-700 transition-colors delay-100 duration-300 group-focus-within:text-brand-600 group-hover:text-brand-600">
               Ver modelo
               <ArrowRight
-                className="size-4 transition-transform duration-300 ease-out-quart group-hover:translate-x-1"
+                className="size-4 transition-transform delay-100 duration-500 ease-out-expo group-focus-within:translate-x-1.5 group-hover:translate-x-1.5"
                 aria-hidden
               />
             </span>

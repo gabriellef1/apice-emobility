@@ -37,6 +37,8 @@ Os tipos espelham as colunas que a tabela `products` terá (snake_case, mesmos n
 - `productSchema` / `Product`: linha + `images[]`, o que a UI consome.
 - `productInputSchema` / `ProductInput`: o que o admin envia (sem id e timestamps).
 
+Coluna **`brand`** (2026-09-16): a Ápice é revenda autorizada Aima, então o produto guarda a fabricante e `name` fica só com o modelo ("X6"); `productTitle()` compõe "Aima X6". Fica no modelo pra suportar outra fabricante depois. Categorias seguem a linha real e a decisão de compra no Brasil: `scooter` (até 32 km/h), `moto` (ciclomotor/moto elétrica), `ebike`, `triciclo`.
+
 Desvio do modelo inicial, aprovado em 2026-09-15: coluna **`availability`** (`in_stock | pre_order | sold_out`). `active` é publicação (aparece ou não), `availability` é situação comercial (badge e filtro). Sem ela não existe "disponibilidade" nem "status" no card.
 
 Specs ficam em `specifications` (jsonb) com chaves tipadas no Zod (`range_km`, `top_speed_kmh`, `motor_power_w`, `battery_v`, `battery_ah`, `battery_type`, `charge_time_h`, `weight_kg`, `max_load_kg`, `colors`). Normalizar em tabela só se um dia houver filtro por spec no banco.
@@ -68,7 +70,23 @@ Fotos ilustrativas do Unsplash, listadas em `src/content/images.json` com autor,
 
 ## Animação
 
-`MotionConfig reducedMotion="user"` no layout raiz. Hero: fade + 12px. Seções: `Reveal` (whileInView, uma vez). Grid do catálogo: `AnimatePresence` com fade nos itens. Drawer: `<dialog>` nativo (foco preso, Esc, fundo inerte, devolução de foco) com Motion só pra entrada e saída.
+Curvas e durações vivem em `src/lib/motion.ts` (Motion) e espelhadas em `tokens.css` (CSS): `easeOutExpo` (0.16, 1, 0.3, 1) pra entradas, `easeSnap` (0.2, 0.8, 0.2, 1) pra hover. Nada de ease padrão do navegador.
+
+Momentos com assinatura (reimplementados em Motion a partir do estudo de ReactBits SplitText/BlurText, 21st.dev text-split-reveal e micro de botão do Uiverse; nenhuma lib extra):
+
+- **Hero**: foto revelada por `clip-path` da direita pra esquerda enquanto um zoom lento assenta; filete rosa entra por máscara; título sobe palavra a palavra de dentro de linhas recortadas (`overflow: hidden`), com stagger; parágrafo, specs e CTAs em cascata.
+- **Títulos de seção** (`SplitText`): palavra a palavra, saindo de desfoque (`blur`) ou subindo de linha recortada (`line`). Texto inteiro vai no `aria-label`; palavras são `aria-hidden`.
+- **Fotos e acentos** (`Reveal effect="wipe-*"`): revelação por `clip-path`, nunca por `translateX` (deslocamento lateral em estado inicial vira overflow horizontal no celular). Quem observa a viewport é um wrapper sem clip; o Chrome desconta o clip-path no cálculo de interseção e um elemento 100% recortado nunca "entra".
+- **Catálogo**: cards entram em cascata; ao filtrar, `AnimatePresence mode="popLayout"` + `layout` faz o card que sai encolher e os vizinhos deslizarem.
+- **Card**: hover em camadas com tempos diferentes (foto 900 ms, borda/sombra 200 ms, título 300 ms com atraso, seta 500 ms com atraso), e o mesmo estado por teclado via `group-focus-within`.
+- **Botão**: preenchimento que desliza da esquerda no hover e no `focus-visible`.
+- **Rotas**: View Transitions API via `viewTransition` do React Router; ao clicar num card, a foto dele recebe `view-transition-name` e vira a foto grande do produto (elemento compartilhado). Header fora da animação.
+
+Tudo sob `prefers-reduced-motion`: `MotionConfig reducedMotion="user"` no layout raiz, `useReducedMotion` nos efeitos de máscara/blur (viram fade) e media query no CSS das rotas. `<dialog>` nativo no drawer (foco preso, Esc, fundo inerte, devolução de foco).
+
+## Testes de navegador
+
+`e2e/overflow.spec.ts` (Playwright, Chromium, contra `vite preview` do build) percorre todos os elementos de cada página em 320/360/375/390/768, antes e depois de rolar, e reprova qualquer um que passe da viewport (descontando trilhos com overflow-x contido). Roda no CI depois do build.
 
 ## Segurança (estado da Fase 1)
 

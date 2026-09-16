@@ -7,14 +7,20 @@ type Variant = 'primary' | 'dark' | 'outline' | 'outline-light' | 'ghost'
 type Size = 'sm' | 'md' | 'lg'
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-md font-medium tracking-tight transition-colors duration-fast ease-out-quart select-none disabled:pointer-events-none disabled:opacity-50'
+  'relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-md font-medium tracking-tight transition-colors duration-base ease-out-expo select-none disabled:pointer-events-none disabled:opacity-50'
+
+/**
+ * Preenchimento que desliza da esquerda no hover e no foco por teclado
+ * (estudo de micro de botão do Uiverse, reimplementado em CSS puro).
+ */
+const fill =
+  'before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:transition-transform before:duration-base before:ease-out-expo before:content-[""] hover:before:scale-x-100 focus-visible:before:scale-x-100'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-brand-500 text-white hover:bg-brand-600',
-  dark: 'bg-ink-950 text-white hover:bg-ink-700',
-  outline: 'border border-ink-900 text-ink-900 hover:bg-ink-900 hover:text-white',
-  'outline-light':
-    'border border-white/40 text-white hover:border-white hover:bg-white hover:text-ink-950',
+  primary: `bg-brand-500 text-white before:bg-brand-700 ${fill}`,
+  dark: `bg-ink-950 text-white before:bg-ink-700 ${fill}`,
+  outline: `border border-ink-900 text-ink-900 before:bg-ink-900 hover:text-white focus-visible:text-white ${fill}`,
+  'outline-light': `border border-white/40 text-white before:bg-white hover:border-white hover:text-ink-950 focus-visible:border-white focus-visible:text-ink-950 ${fill}`,
   ghost: 'text-ink-900 hover:bg-ink-100',
 }
 

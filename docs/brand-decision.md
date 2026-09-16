@@ -50,3 +50,12 @@ Tokens em `src/styles/tokens.css`. O rosa é acento (CTAs, eyebrows, estados); a
 ## Tipografia
 
 Archivo Variable (eixo de largura 62-125%, self-hosted via `@fontsource-variable/archivo`). Display em 110% de largura ecoa a proporção wide do wordmark sem imitar a fonte do logo, que é imagem. Uma família só: menos peso na página.
+
+## Fabricante representada: Aima
+
+A Ápice E-Mobility é **revenda autorizada Aima**. Ápice é a loja (marca deste site); Aima é a fabricante dos modelos do catálogo.
+
+- No site, a Aima aparece **só como menção textual** (`company.brand` e `company.dealerStatus` em `src/config/company.ts`), uma vez no bloco "Sobre" da home, no nome dos produtos ("Aima X6"), no title/description e no JSON-LD de produto.
+- **Não usamos logo, tipografia ou material gráfico da Aima.** Nenhum asset da fabricante está no repositório.
+- **Pendência:** pedir à Aima Brasil o kit de marca oficial (logo, regras de coexistência com a marca da revenda, fotos oficiais dos modelos e autorização de uso). Até lá, fotos continuam ilustrativas e a marca continua textual.
+- Fonte das specs dos modelos: páginas oficiais em `https://aimabrasil.com.br/modelos/`, registradas produto a produto em `src/services/catalog/mock/products.ts`.
